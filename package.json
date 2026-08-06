@@ -1,0 +1,18 @@
+{
+  "name": "discord-stats-bot",
+  "version": "1.0.0",
+  "description": "Discord bot that exposes server stats over a REST API for embedding on a website.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

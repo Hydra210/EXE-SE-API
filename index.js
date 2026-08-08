@@ -159,6 +159,13 @@ client.on('shardDisconnect', (event, id) => {
   console.error(`[shard ${id}] disconnected — code ${event.code}, reason: ${event.reason}`);
 });
 
+// TEMP DEBUG — shows every step of the gateway handshake (REST gateway lookup,
+// WS open, IDENTIFY sent, HELLO/READY received, etc). Remove once this is sorted,
+// it's noisy for normal use but exactly what we need to see where it's hanging.
+client.on('debug', (info) => {
+  console.log('[debug]', info);
+});
+
 // warn loudly if it's been a while and we're still not ready — helps catch
 // a hung connection instead of it just sitting there forever with no sign of life
 setTimeout(() => {

@@ -147,4 +147,27 @@ client.on('guildMemberRemove', refreshCache);
 client.on('channelCreate', refreshCache);
 client.on('channelDelete', refreshCache);
 
-client.login(BOT_TOKEN);
+// these were missing before — without them, connection failures fail silently
+// and you just get a bot that never becomes ready with zero explanation why
+client.on('error', (err) => {
+  console.error('[client error]', err);
+});
+client.on('shardError', (err) => {
+  console.error('[shard error]', err);
+});
+client.on('shardDisconnect', (event, id) => {
+  console.error(`[shard ${id}] disconnected — code ${event.code}, reason: ${event.reason}`);
+});
+
+// warn loudly if it's been a while and we're still not ready — helps catch
+// a hung connection instead of it just sitting there forever with no sign of life
+setTimeout(() => {
+  if (!client.isReady()) {
+    console.error('[BOT] still not ready 30s after login attempt — connection to Discord may be stuck or failing silently.');
+  }
+}, 30_000);
+
+client.login(BOT_TOKEN).catch((err) => {
+  console.error('[BOT] login() rejected:', err.message);
+  console.error(err);
+});
